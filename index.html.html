@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sistem Pengaduan — Inspektorat Kab. Tanjung Jabung Timur</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --merah:#B91C1C;--merah2:#991B1B;--merah-light:#FEE2E2;--merah-mid:#FECACA;
+  --emas:#B45309;--emas2:#D97706;--emas-light:#FEF3C7;--emas-mid:#FDE68A;
+  --hijau:#065F46;
+  --bg:#F8F7F4;
+  --white:#FFFFFF;
+  --navy:#1E3A5F;--navy2:#1a3352;
+  --teks:#1C1917;--teks2:#44403C;--teks3:#78716C;
+  --border:#E7E5E4;--border2:#D6D3D1;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --shadow2:0 8px 32px rgba(0,0,0,0.10);
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(185,28,28,0.06) 0%, transparent 60%);
+  min-height:100vh;color:var(--teks);
+}
+
+/* ═══════════════ HEADER ═══════════════ */
+.header{
+  background:linear-gradient(160deg, #FFFBF7 0%, #FFF8F0 50%, #FFFDF9 100%);
+  border-bottom:3px solid var(--emas2);
+  padding:0;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 2px 20px rgba(0,0,0,0.08);
+}
+.header::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(circle at 10% 50%, rgba(185,28,28,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 90% 50%, rgba(180,83,9,0.04) 0%, transparent 50%);
+  pointer-events:none;
+}
+.header-inner{max-width:860px;margin:0 auto;padding:24px 28px 0;position:relative;}
+.header-logos{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:20px;}
+
+/* Logo SVG container */
+.logo-wrap{
+  width:76px;height:76px;flex-shrink:0;
+  filter:drop-shadow(0 3px 10px rgba(185,28,28,0.25));
+}
+.logo-wrap svg{width:100%;height:100%;}
+
+.header-divider{width:2px;height:52px;background:linear-gradient(to bottom,transparent,var(--emas2),transparent);flex-shrink:0;}
+
+.header-text{text-align:left;}
+.header-text .instansi{
+  font-family:'Playfair Display',serif;
+  font-size:1.45rem;font-weight:700;
+  color:var(--navy);line-height:1.25;
+  letter-spacing:-0.3px;
+}
+.header-text .kabupaten{
+  font-size:0.72rem;font-weight:600;
+  color:var(--emas);letter-spacing:3px;
+  text-transform:uppercase;margin-top:5px;
+  display:flex;align-items:center;gap:8px;
+}
+.header-text .kabupaten::before{
+  content:'';display:inline-block;width:20px;height:2px;background:var(--emas2);border-radius:2px;
+}
+.header-text .sub{
+  font-size:0.8rem;color:var(--teks3);margin-top:3px;font-weight:400;
+}
+
+.header-nav{
+  display:flex;justify-content:center;
+  border-top:1px solid rgba(180,83,9,0.15);
+  margin-top:4px;
+}
+.nav-tab{
+  padding:13px 40px;
+  font-size:0.8rem;font-weight:600;
+  letter-spacing:0.8px;text-transform:uppercase;
+  color:var(--teks3);cursor:pointer;
+  border-bottom:3px solid transparent;
+  transition:all 0.2s;user-select:none;
+}
+.nav-tab.active{color:var(--merah);border-bottom-color:var(--merah);}
+.nav-tab:hover:not(.active){color:var(--navy);background:rgba(0,0,0,0.02);}
+
+/* ═══════════════ WRAPPER ═══════════════ */
+.wrapper{max-width:860px;margin:0 auto;padding:28px 24px 60px;}
+.panel{display:none;animation:fadeUp 0.35s ease;}
+.panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════ INFO BOX (PEDOMAN) ═══════════════ */
+.info-box{
+  background:linear-gradient(135deg,#FFF7ED,#FFFBF5);
+  border:1.5px solid #F59E0B;
+  border-left:5px solid #D97706;
+  border-radius:14px;
+  margin-bottom:24px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(217,119,6,0.12);
+}
+.info-box-head{
+  background:linear-gradient(135deg,#D97706,#B45309);
+  padding:13px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.info-box-head .head-icon{font-size:1.2rem;}
+.info-box-head strong{
+  font-size:0.82rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:#FFFFFF;
+}
+.info-box-body{padding:18px 22px;display:flex;flex-direction:column;gap:11px;}
+.info-item{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:0.9rem;color:#1C1917;
+  font-weight:500;line-height:1.6;
+}
+.info-item-dot{
+  width:22px;height:22px;flex-shrink:0;
+  background:linear-gradient(135deg,#D97706,#B45309);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.info-item-dot span{font-size:0.6rem;color:#fff;font-weight:700;}
+.info-item b{color:#B91C1C;font-weight:600;}
+
+/* ═══════════════ CARD ═══════════════ */
+.card{
+  background:var(--white);
+  border-radius:16px;
+  box-shadow:var(--shadow2);
+  border:1px solid var(--border);
+  overflow:hidden;margin-bottom:20px;
+}
+.card-head{
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  padding:16px 24px;
+  display:flex;align-items:center;gap:13px;
+}
+.card-head .icon{
+  width:38px;height:38px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;flex-shrink:0;
+}
+.card-head h3{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;color:#fff;font-weight:700;
+}
+.card-head p{font-size:0.75rem;color:rgba(255,255,255,0.6);margin-top:2px;}
+.card-body{padding:24px 28px;}
+
+/* ═══════════════ FORM ═══════════════ */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-row.full{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-group label{
+  font-size:0.75rem;font-weight:600;
+  letter-spacing:0.6px;text-transform:uppercase;
+  color:var(--teks2);
+}
+.req{color:var(--merah);margin-left:2px;}
+.form-group input,.form-group select,.form-group textarea{
+  border:1.5px solid var(--border2);
+  border-radius:10px;padding:11px 14px;
+  font-family:'Inter',sans-serif;font-size:0.9rem;
+  color:var(--teks);background:var(--white);
+  transition:all 0.2s;outline:none;width:100%;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--emas2);
+  box-shadow:0 0 0 3px rgba(217,119,6,0.12);
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#A8A29E;}
+.form-group textarea{resize:vertical;min-height:130px;line-height:1.65;}
+.form-group select{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2378716C' fill='none' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;
+}
+
+/* ═══════════════ UPLOAD ═══════════════ */
+.upload-area{
+  border:2px dashed var(--border2);border-radius:12px;
+  padding:32px 20px;text-align:center;cursor:pointer;
+  transition:all 0.2s;background:#FAFAF9;position:relative;
+}
+.upload-area:hover,.upload-area.dragover{
+  border-color:var(--emas2);background:rgba(217,119,6,0.03);
+}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.upload-icon{font-size:38px;margin-bottom:10px;}
+.upload-area p{font-size:0.9rem;color:var(--teks2);font-weight:500;}
+.upload-area span{font-size:0.76rem;color:var(--teks3);margin-top:4px;display:block;}
+.file-list{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
+.file-item{
+  display:flex;align-items:center;gap:9px;
+  background:#F5F5F4;border-radius:9px;
+  padding:9px 13px;font-size:0.83rem;color:var(--navy);
+}
+.file-item .rm{margin-left:auto;cursor:pointer;color:var(--merah);font-size:18px;line-height:1;}
+
+/* ═══════════════ BUTTONS ═══════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 24px;border-radius:10px;
+  font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:600;
+  cursor:pointer;border:none;transition:all 0.2s;letter-spacing:0.2px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#B91C1C,#991B1B);color:#fff;
+  box-shadow:0 4px 16px rgba(185,28,28,0.3);
+  width:100%;padding:15px;font-size:0.95rem;margin-top:6px;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(185,28,28,0.4);}
+.btn-primary:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.btn-outline{
+  background:transparent;color:var(--navy);
+  border:1.5px solid var(--border2);flex:1;
+}
+.btn-outline:hover{border-color:var(--emas2);color:var(--emas);}
+.btn-gold{
+  background:linear-gradient(135deg,#D97706,#B45309);color:#fff;
+  box-shadow:0 4px 12px rgba(217,119,6,0.3);
+}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(217,119,6,0.4);}
+
+/* ═══════════════ TOAST ═══════════════ */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:var(--navy);color:#fff;
+  padding:14px 28px;border-radius:12px;
+  font-size:0.88rem;font-weight:500;
+  box-shadow:0 8px 32px rgba(0,0,0,0.25);
+  z-index:9999;
+  transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;border-left:4px solid var(--emas2);
+  max-width:90vw;text-align:center;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.error{border-left-color:var(--merah);}
+.toast.success{border-left-color:#059669;}
+
+/* ═══════════════ SUKSES OVERLAY ═══════════════ */
+.sukses-overlay{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(15,23,42,0.85);
+  backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.sukses-overlay.show{display:flex;animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.sukses-box{
+  background:#fff;border-radius:24px;
+  padding:44px 36px;text-align:center;
+  max-width:500px;width:100%;
+  box-shadow:0 40px 80px rgba(0,0,0,0.3);
+  animation:popIn 0.5s cubic-bezier(.34,1.56,.64,1);
+  position:relative;overflow:hidden;
+}
+.sukses-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--merah),var(--emas2),#059669);
+}
+@keyframes popIn{from{transform:scale(0.75) translateY(30px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.sukses-icon{font-size:60px;margin-bottom:10px;animation:bounce 0.6s 0.3s both cubic-bezier(.34,1.56,.64,1);}
+@keyframes bounce{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.sukses-box h2{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--navy);margin-bottom:8px;}
+.sukses-box .sub{font-size:0.88rem;color:var(--teks3);margin-bottom:20px;line-height:1.7;}
+.kode-box{
+  background:linear-gradient(135deg,#FFFBEB,#FEF3C7);
+  border:2px solid #F59E0B;border-radius:14px;
+  padding:6px 20px 18px;margin-bottom:20px;
+}
+.kode-label{
+  display:inline-block;background:linear-gradient(135deg,#D97706,#B45309);color:#fff;
+  font-size:0.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  padding:5px 16px;border-radius:0 0 8px 8px;margin-bottom:10px;
+}
+.kode-val{font-size:2.2rem;font-weight:700;letter-spacing:10px;color:var(--navy);font-family:'Playfair Display',serif;display:block;}
+.kode-note{font-size:0.76rem;color:var(--teks3);margin-top:6px;}
+.sukses-flow{display:flex;gap:6px;margin-bottom:24px;}
+.flow-step{flex:1;background:#F5F5F4;border-radius:10px;padding:10px 6px;text-align:center;}
+.flow-step .fi{font-size:1.3rem;display:block;margin-bottom:4px;}
+.flow-step .ft{font-size:0.68rem;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:0.5px;}
+.sukses-actions{display:flex;gap:12px;}
+
+/* ═══════════════ TRACKING ═══════════════ */
+.track-form{display:flex;gap:12px;margin-bottom:20px;}
+.track-form input{flex:1;}
+.status-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow2);}
+.status-header{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:20px 24px;color:#fff;}
+.status-header .sk{font-size:0.72rem;color:rgba(255,255,255,0.6);letter-spacing:2px;text-transform:uppercase;}
+.status-header .sj{font-family:'Playfair Display',serif;font-size:1.15rem;margin-top:4px;}
+.status-body{background:#fff;padding:24px;}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 18px;border-radius:20px;font-size:0.78rem;font-weight:600;margin-bottom:20px;}
+.badge-diterima{background:#FEF3C7;color:#92400E;}
+.badge-diproses{background:#DBEAFE;color:#1E40AF;}
+.badge-selesai{background:#D1FAE5;color:#065F46;}
+.badge-ditolak{background:#FEE2E2;color:#991B1B;}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.di label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--teks3);}
+.di p{font-size:0.9rem;color:var(--navy);font-weight:500;margin-top:2px;}
+.timeline{position:relative;padding-left:28px;}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#E7E5E4;}
+.tl-item{position:relative;padding-bottom:20px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{position:absolute;left:-24px;top:3px;width:16px;height:16px;border-radius:50%;background:#E7E5E4;border:2px solid #fff;box-shadow:0 0 0 2px #E7E5E4;}
+.tl-item.done .tl-dot{background:var(--emas2);box-shadow:0 0 0 2px var(--emas2);}
+.tl-item.active .tl-dot{background:var(--merah);box-shadow:0 0 0 2px var(--merah);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 2px var(--merah)}50%{box-shadow:0 0 0 6px rgba(185,28,28,0.2)}}
+.tl-label{font-weight:600;font-size:0.88rem;color:var(--navy);}
+.tl-date{font-size:0.75rem;color:var(--teks3);margin-top:2px;}
+.tl-note{font-size:0.82rem;color:var(--teks2);margin-top:4px;font-style:italic;}
+
+/* SPINNER */
+.spinner{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+#konfeti{position:fixed;inset:0;pointer-events:none;z-index:9001;}
+
+/* FOOTER STRIP */
+.footer-strip{
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  text-align:center;padding:14px;
+  font-size:0.74rem;color:rgba(255,255,255,0.5);
+}
+.footer-strip span{color:rgba(255,255,255,0.8);}
+
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr;}
+  .detail-grid{grid-template-columns:1fr;}
+  .sukses-actions{flex-direction:column;}
+  .track-form{flex-direction:column;}
+  .nav-tab{padding:12px 20px;font-size:0.75rem;}
+  .sukses-flow{flex-wrap:wrap;}
+  .flow-step{min-width:40%;}
+  .header-text .instansi{font-size:1.15rem;}
+  .logo-wrap{width:60px;height:60px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-logos">
+
+      <!-- LOGO SVG TANJUNG JABUNG TIMUR -->
+      <div class="logo-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Perisai / Shield background -->
+          <defs>
+            <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#1E3A5F"/>
+              <stop offset="100%" style="stop-color:#1a3352"/>
+            </linearGradient>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#F59E0B"/>
+              <stop offset="100%" style="stop-color:#D97706"/>
+            </linearGradient>
+            <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#B91C1C"/>
+              <stop offset="100%" style="stop-color:#991B1B"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Outer ring -->
+          <circle cx="100" cy="100" r="96" fill="url(#goldGrad)" />
+          <circle cx="100" cy="100" r="90" fill="url(#shieldGrad)" />
+
+          <!-- Gelombang (laut / sungai — ciri Tanjab Timur) -->
+          <path d="M30 125 Q45 115 60 125 Q75 135 90 125 Q105 115 120 125 Q135 135 150 125 Q162 117 170 125 L170 145 Q158 137 150 145 Q135 155 120 145 Q105 135 90 145 Q75 155 60 145 Q45 135 30 145 Z" fill="#1565C0" opacity="0.8"/>
+          <path d="M30 140 Q45 130 60 140 Q75 150 90 140 Q105 130 120 140 Q135 150 150 140 Q162 132 170 140 L170 158 Q158 150 150 158 Q135 168 120 158 Q105 148 90 158 Q75 168 60 158 Q45 148 30 158 Z" fill="#1976D2" opacity="0.6"/>
+
+          <!-- Bintang 5 (Pancasila) -->
+          <polygon points="100,28 107,50 130,50 112,63 119,85 100,72 81,85 88,63 70,50 93,50" fill="url(#goldGrad)"/>
+
+          <!-- Padi (kiri) -->
+          <g transform="translate(38,72) rotate(-30,12,30)" fill="#D97706">
+            <ellipse cx="12" cy="72" rx="5" ry="9"/>
+            <ellipse cx="8" cy="55" rx="5" ry="9"/>
+            <ellipse cx="12" cy="38" rx="5" ry="9"/>
+            <ellipse cx="8" cy="21" rx="5" ry="9"/>
+            <line x1="12" y1="75" x2="12" y2="5" stroke="#D97706" stroke-width="2"/>
+          </g>
+          <!-- Kapas (kanan) -->
+          <g transform="translate(150,72) rotate(30,-12,30)" fill="#FBBF24">
+            <ellipse cx="-12" cy="72" rx="5" ry="9"/>
+            <ellipse cx="-8" cy="55" rx="5" ry="9"/>
+            <ellipse cx="-12" cy="38" rx="5" ry="9"/>
+            <ellipse cx="-8" cy="21" rx="5" ry="9"/>
+            <line x1="-12" y1="75" x2="-12" y2="5" stroke="#FBBF24" stroke-width="2"/>
+          </g>
+
+          <!-- Nama singkatan -->
+          <text x="100" y="107" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="700" fill="#F59E0B" letter-spacing="2">TANJAB TIMUR</text>
+
+          <!-- Garis dekoratif bawah -->
+          <line x1="52" y1="115" x2="148" y2="115" stroke="#F59E0B" stroke-width="1.5" opacity="0.5"/>
+        </svg>
+      </div>
+
+      <div class="header-divider"></div>
+
+      <div class="header-text">
+        <div class="kabupaten">Kabupaten Tanjung Jabung Timur</div>
+        <div class="instansi">Inspektorat Daerah</div>
+        <div class="sub">Sistem Pengaduan Masyarakat Digital</div>
+      </div>
+    </div>
+  </div>
+  <div class="header-nav">
+    <div class="nav-tab active" onclick="switchTab('form',this)">📝 Buat Laporan</div>
+    <div class="nav-tab" onclick="switchTab('tracking',this)">🔍 Lacak Laporan</div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- ════ PANEL FORM ════ -->
+  <div class="panel active" id="panel-form">
+
+    <!-- INFO BOX PEDOMAN — JELAS & TERANG -->
+    <div class="info-box">
+      <div class="info-box-head">
+        <span class="head-icon">📋</span>
+        <strong>Pedoman Pengisian — Baca Sebelum Mengisi</strong>
+      </div>
+      <div class="info-box-body">
+        <div class="info-item">
+          <div class="info-item-dot"><span>1</span></div>
+          <div>Pastikan seluruh data yang Anda isi adalah <b>benar dan dapat dipertanggungjawabkan secara hukum.</b></div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-dot"><span>2</span></div>
+          <div>Setelah pengiriman, Anda akan menerima <b>Kode Laporan unik</b> — simpan kode tersebut untuk melacak status pengaduan Anda kapan saja.</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-dot"><span>3</span></div>
+          <div>Identitas pelapor bersifat <b>rahasia dan dilindungi</b> peraturan perundang-undangan yang berlaku.</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-dot"><span>4</span></div>
+          <div>Laporan yang terbukti <b>palsu atau mengandung fitnah</b> dapat dikenai sanksi pidana sesuai ketentuan hukum yang berlaku.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA PELAPOR -->
+    <div class="card">
+      <div class="card-head">
+        <div class="icon">👤</div>
+        <div><h3>Data Pelapor</h3><p>Identitas pelapor bersifat rahasia dan dilindungi</p></div>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group"><label>Nama Lengkap <span class="req">*</span></label><input type="text" id="nama" placeholder="Masukkan nama lengkap"/></div>
+          <div class="form-group"><label>NIK / No. Identitas <span class="req">*</span></label><input type="text" id="nik" placeholder="16 digit NIK KTP" maxlength="16"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>No. Telepon / HP <span class="req">*</span></label><input type="tel" id="telepon" placeholder="08123456789"/></div>
+          <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="email@contoh.com (opsional)"/></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group"><label>Alamat Lengkap <span class="req">*</span></label><input type="text" id="alamat" placeholder="Desa/Kelurahan, Kecamatan"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Pekerjaan / Jabatan</label><input type="text" id="pekerjaan" placeholder="Contoh: PNS, Wiraswasta, dll"/></div>
+          <div class="form-group"><label>Hubungan dengan Terlapor <span class="req">*</span></label>
+            <select id="hubungan">
+              <option value="" disabled selected>Pilih hubungan...</option>
+              <option>Masyarakat Umum</option><option>ASN / Pegawai Pemerintah</option>
+              <option>Rekanan / Penyedia Jasa</option><option>Tokoh Masyarakat</option>
+              <option>Jurnalis / Media</option><option>Lainnya</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL PENGADUAN -->
+    <div class="card">
+      <div class="card-head">
+        <div class="icon">📋</div>
+        <div><h3>Detail Pengaduan</h3><p>Uraikan masalah yang dilaporkan secara jelas dan terperinci</p></div>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group"><label>Kategori Pengaduan <span class="req">*</span></label>
+            <select id="kategori">
+              <option value="" disabled selected>Pilih kategori...</option>
+              <optgroup label="── Korupsi & Penyalahgunaan ──">
+                <option>Korupsi / Gratifikasi</option><option>Penyalahgunaan Wewenang</option>
+                <option>Penggelapan Aset Daerah</option><option>Mark-up Anggaran</option>
+              </optgroup>
+              <optgroup label="── Pengadaan Barang & Jasa ──">
+                <option>Kecurangan Proses Tender</option><option>Kolusi dalam Pengadaan</option>
+                <option>Pekerjaan Fiktif / Tidak Sesuai Spek</option>
+              </optgroup>
+              <optgroup label="── Pelayanan Publik ──">
+                <option>Pungutan Liar (Pungli)</option><option>Diskriminasi Pelayanan</option>
+                <option>Ketidakprofesionalan ASN</option>
+              </optgroup>
+              <optgroup label="── Lainnya ──">
+                <option>Pelanggaran Disiplin ASN</option><option>Konflik Kepentingan</option><option>Lainnya</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="form-group"><label>Instansi / SKPD yang Dilaporkan <span class="req">*</span></label>
+            <select id="instansi_lapor">
+              <option value="" disabled selected>Pilih instansi...</option>
+              <option>Sekretariat Daerah</option><option>DPRD</option><option>BPKAD</option>
+              <option>UKPBJ / Bagian Pengadaan</option><option>Dinas PUPR</option>
+              <option>Dinas Pendidikan</option><option>Dinas Kesehatan</option><option>Dinas Sosial</option>
+              <option>BKD / BKPSDM</option><option>Dinas Pertanian</option>
+              <option>Dinas Lingkungan Hidup</option><option>Kecamatan</option>
+              <option>Kelurahan / Desa</option><option>Lainnya</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Nama Terlapor</label><input type="text" id="terlapor" placeholder="Nama pihak yang dilaporkan (jika diketahui)"/></div>
+          <div class="form-group"><label>Jabatan Terlapor</label><input type="text" id="jabatan_terlapor" placeholder="Jabatan pihak yang dilaporkan"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Perkiraan Waktu Kejadian <span class="req">*</span></label><input type="date" id="tgl_kejadian"/></div>
+          <div class="form-group"><label>Lokasi Kejadian <span class="req">*</span></label><input type="text" id="lokasi" placeholder="Tempat terjadinya kejadian"/></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group"><label>Uraian Kronologi Kejadian <span class="req">*</span></label>
+            <textarea id="kronologi" placeholder="Ceritakan secara lengkap: apa yang terjadi, kapan, di mana, siapa yang terlibat, dan bagaimana kejadiannya. Semakin detail semakin baik untuk proses investigasi."></textarea>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group"><label>Perkiraan Nilai Kerugian</label><input type="text" id="kerugian" placeholder="Contoh: Rp 50.000.000 (opsional)"/></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUKTI -->
+    <div class="card">
+      <div class="card-head">
+        <div class="icon">📎</div>
+        <div><h3>Lampiran Bukti</h3><p>Foto, dokumen, atau file pendukung (maks. 5 file · 10MB/file)</p></div>
+      </div>
+      <div class="card-body">
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" onchange="handleFiles(this.files)"/>
+          <div class="upload-icon">📁</div>
+          <p>Klik atau seret &amp; lepas file di sini</p>
+          <span>Foto (JPG/PNG) · PDF · Word · Excel — Maksimal 5 file</span>
+        </div>
+        <div class="file-list" id="fileList"></div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="card">
+      <div class="card-body">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;background:#FFF7ED;border:1.5px solid #FDE68A;border-radius:10px;padding:14px 16px;">
+          <input type="checkbox" id="pernyataan" style="width:18px;height:18px;margin-top:2px;accent-color:#B91C1C;flex-shrink:0;cursor:pointer;"/>
+          <label for="pernyataan" style="font-size:0.88rem;color:#1C1917;cursor:pointer;line-height:1.7;font-weight:500;">
+            Saya menyatakan bahwa seluruh informasi dalam laporan ini adalah <strong style="color:#B91C1C;">benar adanya</strong> dan dapat saya pertanggungjawabkan secara hukum. Saya memahami bahwa laporan palsu dapat dikenai <strong style="color:#B91C1C;">sanksi pidana</strong>.
+          </label>
+        </div>
+        <button class="btn btn-primary" id="submitBtn" onclick="submitLaporan()">
+          📤&nbsp; Kirim Laporan Pengaduan
+        </button>
+      </div>
+    </div>
+
+  </div><!-- end panel-form -->
+
+  <!-- ════ PANEL TRACKING ════ -->
+  <div class="panel" id="panel-tracking">
+    <div class="card">
+      <div class="card-head">
+        <div class="icon">🔍</div>
+        <div><h3>Lacak Status Laporan</h3><p>Masukkan kode laporan yang Anda terima saat pengiriman</p></div>
+      </div>
+      <div class="card-body">
+        <div class="track-form">
+          <div class="form-group" style="flex:1;margin:0">
+            <input type="text" id="kodeInput" placeholder="Contoh: LP-2026-ABCD" style="text-transform:uppercase;letter-spacing:2px;font-weight:600;font-size:1rem;"/>
+          </div>
+          <button class="btn btn-gold" onclick="cariLaporan()">🔍&nbsp; Lacak</button>
+        </div>
+        <div id="trackResult"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end wrapper -->
+
+<div class="footer-strip">
+  © 2026 <span>Inspektorat Daerah Kab. Tanjung Jabung Timur</span> &nbsp;·&nbsp; Sistem Pengaduan Masyarakat Digital
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- KONFETI -->
+<canvas id="konfeti"></canvas>
+
+<!-- SUKSES OVERLAY -->
+<div class="sukses-overlay" id="suksesOverlay">
+  <div class="sukses-box">
+    <div class="sukses-icon">✅</div>
+    <h2>Laporan Berhasil Dikirim!</h2>
+    <p class="sub">Laporan Anda telah diterima oleh Inspektorat Kab. Tanjung Jabung Timur.<br/>Simpan kode berikut — tidak dapat diulang.</p>
+    <div class="kode-box">
+      <div class="kode-label">Kode Laporan Anda</div>
+      <span class="kode-val" id="kodeHasil">—</span>
+      <div class="kode-note">📸 Foto atau catat kode ini sebelum menutup halaman</div>
+    </div>
+    <div class="sukses-flow">
+      <div class="flow-step"><span class="fi">📨</span><span class="ft">Diterima</span></div>
+      <div class="flow-step"><span class="fi">🔍</span><span class="ft">Verifikasi</span></div>
+      <div class="flow-step"><span class="fi">⚖️</span><span class="ft">Investigasi</span></div>
+      <div class="flow-step"><span class="fi">✅</span><span class="ft">Selesai</span></div>
+    </div>
+    <div class="sukses-actions">
+      <button class="btn btn-outline" onclick="cetakBukti()">🖨️ Cetak Bukti</button>
+      <button class="btn btn-primary" onclick="resetForm()" style="flex:1;width:auto">✚ Laporan Baru</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLLWp-q0txxo2wHtzENorKPDoUrQ-YsZ4CXKl6RmTFsFrLWMf1DsTbA6kIPSKvGJMi/exec";
+let uploadedFiles = [], lastData = {};
+
+// ── TAB ──
+function switchTab(tab, el) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// ── FILES ──
+function handleFiles(files) {
+  for (const f of files) {
+    if (uploadedFiles.length >= 5) { showToast('⚠️ Maksimal 5 file', 'error'); break; }
+    if (f.size > 10*1024*1024) { showToast('⚠️ ' + f.name + ' terlalu besar (maks 10MB)', 'error'); continue; }
+    uploadedFiles.push(f);
+  }
+  renderFiles();
+}
+function renderFiles() {
+  document.getElementById('fileList').innerHTML = uploadedFiles.map((f,i) =>
+    `<div class="file-item">
+      <span>${f.type.includes('image')?'🖼️':'📄'}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</span>
+      <span style="color:#78716C;font-size:0.74rem">${(f.size/1024).toFixed(0)} KB</span>
+      <span class="rm" onclick="removeFile(${i})">✕</span>
+    </div>`
+  ).join('');
+}
+function removeFile(i) { uploadedFiles.splice(i,1); renderFiles(); }
+const ua = document.getElementById('uploadArea');
+ua.addEventListener('dragover', e=>{e.preventDefault();ua.classList.add('dragover');});
+ua.addEventListener('dragleave', ()=>ua.classList.remove('dragover'));
+ua.addEventListener('drop', e=>{e.preventDefault();ua.classList.remove('dragover');handleFiles(e.dataTransfer.files);});
+
+// ── KODE ──
+function genKode() {
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return 'LP-'+new Date().getFullYear()+'-'+Array.from({length:4},()=>c[Math.floor(Math.random()*c.length)]).join('');
+}
+
+// ── SUBMIT ──
+async function submitLaporan() {
+  const reqs = [
+    {id:'nama',l:'Nama Lengkap'},{id:'nik',l:'NIK'},{id:'telepon',l:'No. Telepon'},
+    {id:'alamat',l:'Alamat'},{id:'hubungan',l:'Hubungan dengan Terlapor'},
+    {id:'kategori',l:'Kategori Pengaduan'},{id:'instansi_lapor',l:'Instansi yang Dilaporkan'},
+    {id:'tgl_kejadian',l:'Waktu Kejadian'},{id:'lokasi',l:'Lokasi Kejadian'},{id:'kronologi',l:'Uraian Kronologi'},
+  ];
+  for (const r of reqs) {
+    if (!document.getElementById(r.id).value.trim()) {
+      showToast('⚠️ ' + r.l + ' wajib diisi', 'error');
+      document.getElementById(r.id).focus(); return;
+    }
+  }
+  if (!document.getElementById('pernyataan').checked) {
+    showToast('⚠️ Centang pernyataan kebenaran laporan terlebih dahulu', 'error'); return;
+  }
+
+  const kode = genKode();
+  const now  = new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'});
+  lastData = {
+    kode, waktu:now,
+    nama:        document.getElementById('nama').value.trim(),
+    nik:         document.getElementById('nik').value.trim(),
+    telepon:     document.getElementById('telepon').value.trim(),
+    email:       document.getElementById('email').value.trim()||'-',
+    alamat:      document.getElementById('alamat').value.trim(),
+    pekerjaan:   document.getElementById('pekerjaan').value.trim()||'-',
+    hubungan:    document.getElementById('hubungan').value,
+    kategori:    document.getElementById('kategori').value,
+    instansi:    document.getElementById('instansi_lapor').value,
+    terlapor:    document.getElementById('terlapor').value.trim()||'-',
+    jabatan_terlapor: document.getElementById('jabatan_terlapor').value.trim()||'-',
+    tgl_kejadian:document.getElementById('tgl_kejadian').value,
+    lokasi:      document.getElementById('lokasi').value.trim(),
+    kronologi:   document.getElementById('kronologi').value.trim(),
+    kerugian:    document.getElementById('kerugian').value.trim()||'-',
+    jumlah_bukti:uploadedFiles.length,
+    status:'Diterima',
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>&nbsp; Mengirim laporan...';
+
+  try {
+    const fd = new FormData();
+    fd.append('payload', JSON.stringify(lastData));
+    uploadedFiles.forEach((f,i)=>fd.append('file_'+i,f));
+    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:fd});
+    tampilSukses(kode);
+  } catch { showToast('❌ Gagal mengirim. Periksa koneksi internet.','error'); }
+  finally { btn.disabled=false; btn.innerHTML='📤&nbsp; Kirim Laporan Pengaduan'; }
+}
+
+// ── SUKSES + KONFETI ──
+function tampilSukses(kode) {
+  document.getElementById('kodeHasil').textContent = kode;
+  document.getElementById('suksesOverlay').classList.add('show');
+  showToast('✅ Laporan berhasil dikirim!','success');
+  startKonfeti();
+}
+
+function startKonfeti() {
+  const canvas = document.getElementById('konfeti');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.display = 'block';
+  const colors = ['#B91C1C','#D97706','#059669','#2563EB','#7C3AED','#F59E0B'];
+  const pieces = Array.from({length:120},()=>({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height - canvas.height,
+    r: 4+Math.random()*6, d: 2+Math.random()*3,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    tilt: Math.random()*10-10, tiltAngle:0, tiltSpeed:0.1+Math.random()*0.1,
+    shape: Math.random()>0.5?'rect':'circle'
+  }));
+  let frames=0;
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.beginPath(); ctx.fillStyle=p.color;
+      if(p.shape==='circle'){ctx.arc(p.x,p.y,p.r,0,2*Math.PI);}
+      else{ctx.rect(p.x,p.y,p.r*2,p.r*0.8);}
+      ctx.fill();
+      p.y += p.d; p.tiltAngle += p.tiltSpeed; p.tilt = Math.sin(p.tiltAngle)*15;
+      p.x += Math.sin(p.tilt)*0.5;
+      if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;}
+    });
+    frames++;
+    if(frames<200) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
+  }
+  draw();
+}
+
+// ── CETAK BUKTI ──
+function cetakBukti() {
+  const d=lastData, kode=d.kode;
+  const w=window.open('','_blank','width=780,height=680');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Bukti ${kode}</title>
+  <style>body{font-family:Arial,sans-serif;max-width:700px;margin:36px auto;font-size:13px;color:#111}
+  .kop{text-align:center;border-bottom:3px solid #1E3A5F;padding-bottom:14px;margin-bottom:20px}
+  .kop h2{font-size:15px;color:#1E3A5F;margin:4px 0}.kop p{font-size:11px;color:#666}
+  .kb{text-align:center;background:#FFFBEB;border:2px solid #F59E0B;border-radius:8px;padding:14px;margin-bottom:20px}
+  .kb .lbl{font-size:9px;text-transform:uppercase;letter-spacing:3px;background:#D97706;color:#fff;padding:4px 14px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .kb .kd{font-size:26px;font-weight:700;letter-spacing:10px;color:#1E3A5F}
+  .kb .kn{font-size:11px;color:#888;margin-top:6px}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  th{background:#1E3A5F;color:#fff;padding:8px 12px;text-align:left;font-size:11px}
+  td{padding:8px 12px;border-bottom:1px solid #eee;font-size:12px}td:first-child{font-weight:600;width:35%;color:#1E3A5F}
+  .warn{background:#FEF3C7;border:1px solid #F59E0B;border-radius:6px;padding:12px;font-size:11px;color:#7D5000;margin-top:12px}
+  .foot{margin-top:28px;text-align:center;font-size:10px;color:#999;border-top:1px solid #eee;padding-top:10px}
+  @media print{.np{display:none}}</style></head><body>
+  <div class="kop"><h2>⚖️ INSPEKTORAT DAERAH — KAB. TANJUNG JABUNG TIMUR</h2><p>BUKTI PENERIMAAN LAPORAN PENGADUAN MASYARAKAT</p></div>
+  <div class="kb"><div class="lbl">Kode Laporan Anda</div><div class="kd">${kode}</div><div class="kn">📸 Foto atau catat kode ini — gunakan untuk melacak status laporan</div></div>
+  <table><tr><th colspan="2">📋 Informasi Laporan</th></tr>
+  <tr><td>Tanggal Laporan</td><td>${d.waktu}</td></tr>
+  <tr><td>Kategori</td><td>${d.kategori}</td></tr>
+  <tr><td>Instansi Terlapor</td><td>${d.instansi}</td></tr>
+  <tr><td>Waktu Kejadian</td><td>${d.tgl_kejadian}</td></tr>
+  <tr><td>Lokasi</td><td>${d.lokasi}</td></tr>
+  <tr><td>Jumlah Bukti</td><td>${d.jumlah_bukti} file dilampirkan</td></tr>
+  <tr><td>Status Saat Ini</td><td><strong style="color:#92400E">📨 Diterima — Menunggu Verifikasi</strong></td></tr></table>
+  <table><tr><th colspan="2">👤 Data Pelapor</th></tr>
+  <tr><td>Nama</td><td>${d.nama}</td></tr>
+  <tr><td>No. Telepon</td><td>${d.telepon}</td></tr>
+  <tr><td>Alamat</td><td>${d.alamat}</td></tr></table>
+  <div class="warn">⚠️ <strong>Simpan bukti ini.</strong> Kode laporan <strong>${kode}</strong> digunakan untuk melacak perkembangan pengaduan Anda melalui tab "Lacak Laporan".</div>
+  <div class="foot">Dicetak oleh Sistem Pengaduan Inspektorat Kab. Tanjung Jabung Timur &nbsp;|&nbsp; ${new Date().toLocaleString('id-ID')}</div>
+  <br/><button class="np" onclick="window.print()" style="margin-top:8px;padding:10px 24px;background:#1E3A5F;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">🖨️ Cetak / Simpan PDF</button>
+  </body></html>`);
+  w.document.close();
+}
+
+// ── RESET ──
+function resetForm() {
+  document.getElementById('suksesOverlay').classList.remove('show');
+  ['nama','nik','telepon','email','alamat','pekerjaan','terlapor','jabatan_terlapor',
+   'tgl_kejadian','lokasi','kronologi','kerugian'].forEach(id=>document.getElementById(id).value='');
+  ['hubungan','kategori','instansi_lapor'].forEach(id=>document.getElementById(id).selectedIndex=0);
+  document.getElementById('pernyataan').checked=false;
+  uploadedFiles=[]; renderFiles();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── TRACKING ──
+async function cariLaporan() {
+  const kode = document.getElementById('kodeInput').value.trim().toUpperCase();
+  if (!kode) { showToast('Masukkan kode laporan terlebih dahulu','error'); return; }
+  if (!/^LP-\d{4}-[A-Z0-9]{4}$/.test(kode)) { showToast('Format tidak valid. Contoh: LP-2026-ABCD','error'); return; }
+  document.getElementById('trackResult').innerHTML=`<p style="text-align:center;color:#78716C;padding:32px;font-size:0.9rem">🔍 Mencari laporan <strong>${kode}</strong>...</p>`;
+  const old=document.getElementById('jtrack'); if(old)old.remove();
+  window._tc=function(j){ j&&j.data ? showStatus(j.data) : document.getElementById('trackResult').innerHTML=`<p style="text-align:center;color:#78716C;padding:28px">❌ Laporan <strong>${kode}</strong> tidak ditemukan.</p>`; };
+  const s=document.createElement('script'); s.id='jtrack';
+  s.src=SCRIPT_URL+'?action=cariLaporan&kode='+encodeURIComponent(kode)+'&callback=_tc&t='+Date.now();
+  document.head.appendChild(s);
+}
+
+function showStatus(d) {
+  const sm={
+    'Diterima':{cls:'badge-diterima',icon:'📨',lbl:'Diterima — Menunggu Verifikasi'},
+    'Diproses':{cls:'badge-diproses',icon:'⚙️',lbl:'Sedang Diproses'},
+    'Selesai': {cls:'badge-selesai', icon:'✅',lbl:'Selesai'},
+    'Ditolak': {cls:'badge-ditolak', icon:'❌',lbl:'Ditolak'},
+  };
+  const s=sm[d.status]||sm['Diterima'];
+  const steps=[
+    {l:'Laporan Diterima',  dt:d.tgl_terima||'-', n:'Laporan masuk ke sistem Inspektorat', done:true},
+    {l:'Verifikasi & Telaah',dt:d.tgl_verif||'-', n:'Tim admin memverifikasi kelengkapan laporan', done:['Diproses','Selesai'].includes(d.status)},
+    {l:'Proses Investigasi', dt:d.tgl_proses||'-', n:d.catatan||'Menunggu proses investigasi', active:d.status==='Diproses', done:d.status==='Selesai'},
+    {l:'Tindak Lanjut & Hasil',dt:d.tgl_selesai||'-',n:'Hasil investigasi dan rekomendasi',done:d.status==='Selesai'},
+  ];
+  document.getElementById('trackResult').innerHTML=`
+  <div class="status-card">
+    <div class="status-header"><div class="sk">Kode Laporan</div><div class="sj">${d.kode}</div></div>
+    <div class="status-body">
+      <span class="status-badge ${s.cls}">${s.icon} ${s.lbl}</span>
+      <div class="detail-grid">
+        <div class="di"><label>Kategori</label><p>${d.kategori}</p></div>
+        <div class="di"><label>Instansi Terlapor</label><p>${d.instansi}</p></div>
+        <div class="di"><label>Tanggal Laporan</label><p>${d.waktu||d.tgl_terima}</p></div>
+        <div class="di"><label>Catatan Petugas</label><p>${d.catatan||'—'}</p></div>
+      </div>
+      <hr style="border:none;border-top:1px solid #E7E5E4;margin-bottom:18px"/>
+      <div style="font-weight:600;font-size:0.85rem;color:#1E3A5F;margin-bottom:14px">📊 Perkembangan Laporan</div>
+      <div class="timeline">${steps.map(st=>`
+        <div class="tl-item ${st.done?'done':''} ${st.active?'active':''}">
+          <div class="tl-dot"></div>
+          <div class="tl-label">${st.l}</div>
+          <div class="tl-date">${st.dt}</div>
+          ${st.n?`<div class="tl-note">${st.n}</div>`:''}
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── TOAST ──
+let _tt;
+function showToast(msg, type='') {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(type?' '+type:'');
+  t.classList.add('show'); clearTimeout(_tt);
+  _tt=setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>
